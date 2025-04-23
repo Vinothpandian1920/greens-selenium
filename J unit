@@ -1,0 +1,80 @@
+package junt.org;
+
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.util.Date;
+
+import org.apache.commons.io.FileUtils;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Junit {
+
+	private static final String TakesScreenshot = null;
+	public static WebDriver driver;
+
+	@BeforeClass
+	public static void launchbrowser() {
+		driver = new ChromeDriver();
+		driver.manage().window().maximize();
+	}
+
+	@Before
+	public void launchurl() {
+		driver.get("https://www.flipkart.com/");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2000));
+	}
+
+	@Test
+	public void searchproduct() throws AWTException {
+		WebElement findsearchbox = driver
+				.findElement(By.xpath("//input[@placeholder='Search for Products, Brands and More']"));
+		findsearchbox.sendKeys("mobile");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2000));
+		Robot r = new Robot();
+		r.keyPress(KeyEvent.VK_ENTER);
+	}
+
+	@AfterClass
+	public static void veryfyphone() {
+		String actualtext = "Nothing Phone (3a) (Blue, 128 GB)";
+		System.out.println("actual text:" + actualtext);
+		String expectedtext = driver.findElement(By.xpath("//div[text()='Nothing Phone (3a) (Blue, 128 GB)']"))
+				.getText();
+		System.out.println("expected text:" + expectedtext);
+		if (actualtext.contentEquals(expectedtext)) {
+
+			System.out.println("expected and Actual both are same");
+
+		} else {
+			System.out.println("Not matched");
+
+		}
+		driver.quit();
+	}
+
+	@After
+	public void collectscreenshot() throws IOException {
+		TakesScreenshot pic = (TakesScreenshot) driver;
+		File screenshotAs = pic.getScreenshotAs(OutputType.FILE);
+		String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+		File selectfile = new File("C:\\Users\\ASUS\\Pictures\\selenium\\" + timestamp + ".jpg");
+		FileUtils.copyFile(screenshotAs, selectfile);
+
+	}
+
+}
