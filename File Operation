@@ -1,0 +1,30 @@
+package FileReader;
+
+import java.io.File;
+import java.io.IOException;
+
+public class FileHandling {
+
+	public static void main(String[] args) throws IOException {
+		// File f =new File("D:\Greens class notes\Greens java
+		// class\\javaFileReader.txt");
+		File f = new File("D:\\Greens class notes\\javaFileReader.txt");
+		System.out.println("file created");
+        //Create a new folder
+        //boolean mkdir = f.mkdir()
+		//System.out.println(mkdir);
+		// create a new file
+		boolean createNewFile = f.createNewFile();
+		System.out.println(createNewFile);
+		// check file exist or not
+		boolean exists = f.exists();
+		System.out.println(exists);
+		// check file readable or not
+		boolean canRead = f.canRead();
+		System.out.println(canRead);
+		// check file can editable or not
+		boolean canWrite = f.canWrite();
+		System.out.println(canWrite);
+	}
+
+}
