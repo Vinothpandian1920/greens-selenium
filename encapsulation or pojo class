@@ -1,0 +1,53 @@
+package encap.java;
+//parent or base class
+
+public class BaseClass {
+	private String username;
+	private int passward;
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		if (username.equals("vinoth")) {
+			this.username = "vinoth - user name";
+		} else if (username.equals("pandian")) {
+			this.username = "pandian - user name";
+		} else {
+			this.username = "invalid username";
+		}
+	}
+
+	public int getPassward() {
+		return passward;
+	}
+
+	public void setPassward(int passward) {
+		this.passward = passward;
+		if (passward == 123) {
+			this.passward = 1;
+		} else if (passward == 4443) {
+			this.passward = 1;
+		}
+	}
+
+}
+------------------------------------
+// execution class 
+package encap.java;
+
+public class ExecutionClass {
+//child
+	public static void main(String[] args) {
+		BaseClass base = new BaseClass();
+		base.setUsername("vinoth");
+		base.setPassward(12434);
+		String username = base.getUsername();
+		System.out.println(username);
+		int passward = base.getPassward();
+		System.out.println(passward);
+	}
+
+}
+
