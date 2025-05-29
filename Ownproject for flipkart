@@ -1,0 +1,54 @@
+package OwnLearning;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+
+public class ProExecution extends ProBaseclass {
+
+	public static void main(String[] args) throws InterruptedException {
+		browserlaunch();
+		maxscrn();
+		LaunchURL("https://www.flipkart.com/");
+		driver.findElement(By.xpath("//span[text()='Mobiles']")).click();
+		
+		driver.findElement(By.xpath("//span[text()='VIEW ALL']")).click();
+		List<WebElement> Mobilenames = driver.findElements(By.cssSelector("div._4rR01T"));
+
+		List<WebElement> Mobilenames1 = driver.findElements(By.xpath("//div[@class=\"KzDlHZ\"]"));
+		System.out.println("Total unique mobile names: " + Mobilenames1.size());
+
+		
+		  Set<String> mobileNames = new HashSet<String>();
+	        boolean hasDuplicates = false;
+
+	        for (WebElement mobile : Mobilenames1) {
+	            String name = mobile.getText();
+	            if (!mobileNames.add(name)) {
+	                hasDuplicates = true;
+	            }
+	        }
+		
+	        // 5. Print mobile names
+	        System.out.println("Mobile Names:" );
+	        for (String name : mobileNames) {
+	            System.out.println(name);
+	        }
+
+	        // 6. Check for duplicates
+	        if (hasDuplicates) {
+	            System.out.println("\n❌ Duplicate mobile names found.");
+	        } else {
+	            System.out.println("\n✅ No duplicate mobile names found.");
+	        }
+
+	        // 7. Cleanup
+	        Thread.sleep(5000);
+	       driver.quit();
+	}
+
+}
