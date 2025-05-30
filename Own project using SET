@@ -1,0 +1,74 @@
+package OwnLearning;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Pro2ForWebtablePrint {
+
+	public static void main(String[] args) {
+		ChromeDriver driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get("https://cosmocode.io/automation-practice-webtable/");
+		// featch the table
+		driver.findElements(By.xpath("//table[@id='countries']"));
+		// print the header titles
+		WebElement firstRow = driver.findElement(By.xpath("//table[@id='countries']/tbody/tr[1]"));
+		List<WebElement> columns = firstRow.findElements(By.tagName("td"));
+
+		for (WebElement column : columns) {
+			System.out.println(column.getText());
+		}
+		System.out.println("--------------------------------");
+		// print all the data's from table including headers
+		List<WebElement> rows = driver.findElements(By.xpath("//table[@id='countries']/tbody/tr"));
+
+		for (WebElement row : rows) {
+			List<WebElement> cols = row.findElements(By.tagName("td"));
+			for (WebElement col : cols) {
+				System.out.print(col.getText() + " | ");
+			}
+			System.out.println(); // next line after each row
+		}
+		// print all the data's from table including headers exclude of duplicates
+		System.out.println("----------------------------------------");
+
+		Set<String> uniqueValues = new HashSet<>();
+
+		for (WebElement row : rows) {
+			List<WebElement> cols = row.findElements(By.tagName("td"));
+			for (WebElement col : cols) {
+				uniqueValues.add(col.getText().trim());
+			}
+		}
+
+// Print unique values
+		System.out.println("Unique values from the table:");
+		for (String value : uniqueValues) {
+			System.out.println(value);
+		}
+		System.out.println("================================");
+		// print last coloumn data only without duplcate
+		List<WebElement> rows1 = driver.findElements(By.xpath("//table[@id='countries']/tbody/tr"));
+		Set<String> uniqueLastColumnValues = new HashSet<>();
+		for (WebElement row : rows1) {
+			List<WebElement> cols = row.findElements(By.tagName("td"));
+			if (!cols.isEmpty()) {
+				String lastColValue = cols.get(cols.size() - 1).getText().trim();
+				uniqueLastColumnValues.add(lastColValue);
+			}
+		}
+
+		// Print unique values from the last column
+		System.out.println("Unique values from the last column:");
+		for (String value1 : uniqueLastColumnValues) {
+			System.out.println(value1);
+		}
+		driver.quit();
+	}
+
+}
