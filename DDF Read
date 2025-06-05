@@ -1,0 +1,55 @@
+package OwnLearning;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+public class LearnDDFrameWorkRead {
+
+	public static void main(String[] args) throws IOException {
+		File fi =new File("C:\\Users\\ASUS\\eclipse-workspace\\Automation\\TestData\\Book1.xlsx");
+		FileInputStream f = new FileInputStream(fi);
+		Workbook book =new XSSFWorkbook(f);
+		Sheet sheet = book.getSheet("Sheet1");
+		for (int i = 0; i < sheet.getPhysicalNumberOfRows(); i++) {
+			Row row = sheet.getRow(i);
+			for (int j = 0; j < row.getPhysicalNumberOfCells(); j++) {		
+				Cell cell = row.getCell(j);		
+				 int type = cell.getCellType();
+				
+				 if(type==1) {
+					String stringCellValue = cell.getStringCellValue(); 
+					//System.out.println(stringCellValue);
+					System.out.println(cell);
+			 }
+				 
+				 else if (DateUtil.isCellDateFormatted(cell)) {
+					DateUtil.isCellDateFormatted(cell);
+					 Date dateCellValue = cell.getDateCellValue();
+					 SimpleDateFormat date = new SimpleDateFormat("MM-dd-yyyy");
+					 String format = date.format(dateCellValue);
+					 System.out.println(format);
+					
+				}
+				 else {
+					long l= (long) cell.getNumericCellValue();
+					String valueOf = String.valueOf(l);
+					System.out.println(valueOf);
+				}
+				 
+			}
+			
+		}	
+		System.out.println("Done------>");
+	}
+}
